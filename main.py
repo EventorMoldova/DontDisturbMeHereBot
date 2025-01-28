@@ -1,6 +1,6 @@
 from keep_alive import keep_alive
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, MessageHandler, filters, CallbackContext
 
 # Tokenul tău de bot Telegram (trebuie să-l înlocuiești cu cel real)
 TELEGRAM_TOKEN = "7849522428:AAFKfnqj3We0frTBpVZudMr6kS0rYU0fCso"
@@ -23,7 +23,7 @@ def main():
     dispatcher.add_handler(CommandHandler("start", start))
     
     # Adaugă handler-ul pentru mesaje
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
+    dispatcher.add_handler(MessageHandler(filters.text & ~filters.command, handle_message))
     
     # Începe botul
     updater.start_polling()
