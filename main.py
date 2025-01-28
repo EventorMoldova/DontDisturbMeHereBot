@@ -8,7 +8,7 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "1Botul este activ!"
+    return "Botul este activ!"
 
 def run():
     app.run(host='0.0.0.0', port=8080)
@@ -19,9 +19,6 @@ def keep_alive():
 
 # Funcția care răspunde automat utilizatorilor
 async def greet_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Logăm mesajul primit pentru depanare
-    print(f"Am primit un mesaj de la @{update.effective_user.username} (ID: {update.effective_user.id}): {update.message.text}")
-    
     # Botul răspunde doar în chaturi private și doar utilizatorilor reali
     if update.effective_chat.type == "private" and not update.effective_user.is_bot:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Salut! Cum pot să te ajut?")
