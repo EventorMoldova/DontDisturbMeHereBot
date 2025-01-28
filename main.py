@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, Filters, C
 from keep_alive import keep_alive
 
 # Tokenul tău de bot Telegram (trebuie să-l înlocuiești cu cel real)
-TELEGRAM_TOKEN = "TOKENUL_TAU"
+TELEGRAM_TOKEN = "7849522428:AAFKfnqj3We0frTBpVZudMr6kS0rYU0fCso"
 
 # Startul botului
 async def start(update: Update, context: CallbackContext) -> None:
