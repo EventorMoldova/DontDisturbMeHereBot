@@ -18,7 +18,7 @@ def main():
     application = Application.builder().token(TELEGRAM_TOKEN).build()
     
     # Adaugă handler-ul pentru mesaje (orice tip de mesaj, filtrat doar pentru mesaje private)
-    application.add_handler(MessageHandler(filters.Filters.text & filters.Filters.private, handle_message))  # Răspunde doar la mesaje private
+    application.add_handler(MessageHandler(filters.TEXT & filters.Private, handle_message))  # Răspunde doar la mesaje private
 
     # Începe botul
     application.run_polling()
