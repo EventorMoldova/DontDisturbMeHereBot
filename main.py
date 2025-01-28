@@ -7,11 +7,11 @@ TELEGRAM_TOKEN = "7849522428:AAFKfnqj3We0frTBpVZudMr6kS0rYU0fCso"
 
 # Startul botului
 async def start(update: Update, context: CallbackContext) -> None:
-    await update.message.reply_text('Salut! Eu sunt un bot care nu folosește Telegram. Cum te pot ajuta?')
+    await update.message.reply_text('1111Salut! Eu sunt un bot care nu folosește Telegram. Cum te pot ajuta?')
 
 # Funcția pentru mesajele primite
 async def handle_message(update: Update, context: CallbackContext) -> None:
-    # Răspunde oricărei persoane care îți trimite un mesaj personal
+    # Răspunde orice mesaj (text, imagine, etc.) cu acest mesaj
     await update.message.reply_text('Eu nu folosesc Telegramul, dar pot să-ți răspund!')
 
 # Rularea botului
@@ -23,8 +23,8 @@ def main():
     application.add_handler(CommandHandler("start", start))
     
     # Adaugă handler-ul pentru mesaje
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    
+    application.add_handler(MessageHandler(filters.ALL, handle_message))  # Aici se asigură că botul răspunde la toate mesajele
+
     # Începe botul
     application.run_polling()
 
