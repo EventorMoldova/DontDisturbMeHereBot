@@ -1,15 +1,17 @@
-from keep_alive import keep_alive
 from telegram import Update
-from telegram.ext import Application, MessageHandler, filters, CallbackContext
+from telegram.ext import Application, CommandHandler, MessageHandler, Filters, CallbackContext
+from keep_alive import keep_alive
 
 # Tokenul tău de bot Telegram (trebuie să-l înlocuiești cu cel real)
-TELEGRAM_TOKEN = "7849522428:AAFKfnqj3We0frTBpVZudMr6kS0rYU0fCso"
+TELEGRAM_TOKEN = "TOKENUL_TAU"
 
-# Funcția care răspunde la orice mesaj privat
+# Startul botului
+async def start(update: Update, context: CallbackContext) -> None:
+    await update.message.reply_text('Salut! Eu sunt un bot care nu folosește Telegram. Cum te pot ajuta?')
+
+# Funcția pentru mesajele primite
 async def handle_message(update: Update, context: CallbackContext) -> None:
-    # Verifică dacă mesajul provine dintr-un chat privat
-    if update.message.chat.type == "private":
-        # Răspunde în chatul privat cu mesajul dorit
+    if update.message.chat.type == "private":  # Asigură-te că mesajul provine dintr-un chat privat
         await update.message.reply_text('Eu nu folosesc Telegramul, dar pot să-ți răspund!')
 
 # Rularea botului
@@ -17,8 +19,11 @@ def main():
     # Crează aplicația botului
     application = Application.builder().token(TELEGRAM_TOKEN).build()
     
-    # Adaugă handler-ul pentru mesaje (orice tip de mesaj, filtrat doar pentru mesaje private)
-    application.add_handler(MessageHandler(filters.TEXT & filters.Private, handle_message))  # Răspunde doar la mesaje private
+    # Adaugă handler-ul pentru comanda /start
+    application.add_handler(CommandHandler("start", start))
+    
+    # Adaugă handler-ul pentru mesaje
+    application.add_handler(MessageHandler(Filters.all, handle_message))  # Răspunde la orice mesaj
 
     # Începe botul
     application.run_polling()
