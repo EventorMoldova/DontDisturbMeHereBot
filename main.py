@@ -1,34 +1,43 @@
+from flask import Flask
+from threading import Thread
 from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, Filters, CallbackContext
-from keep_alive import keep_alive
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-# Tokenul tău de bot Telegram (trebuie să-l înlocuiești cu cel real)
-TELEGRAM_TOKEN = "7849522428:AAFKfnqj3We0frTBpVZudMr6kS0rYU0fCso"
+# Configurarea serverului Flask
+app = Flask('')
 
-# Startul botului
-async def start(update: Update, context: CallbackContext) -> None:
-    await update.message.reply_text('Salut! Eu sunt un bot care nu folosește Telegram. Cum te pot ajuta?')
+@app.route('/')
+def home():
+    return "Botul este activ!"
 
-# Funcția pentru mesajele primite
-async def handle_message(update: Update, context: CallbackContext) -> None:
-    if update.message.chat.type == "private":  # Asigură-te că mesajul provine dintr-un chat privat
-        await update.message.reply_text('Eu nu folosesc Telegramul, dar pot să-ți răspund!')
+def run():
+    app.run(host='0.0.0.0', port=8080)
 
-# Rularea botului
-def main():
-    # Crează aplicația botului
-    application = Application.builder().token(TELEGRAM_TOKEN).build()
-    
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
+
+# Funcțiile pentru bot
+async def greet_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Trimitem un mesaj de salut către utilizatorul care a trimis un mesaj
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Salut! Cum pot să te ajut?")
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Mesajul trimis când utilizatorul folosește comanda /start
+    await update.message.reply_text("Salut! Eu sunt un bot pregătit să răspund.")
+
+if __name__ == "__main__":
+    # Creează aplicația botului cu tokenul API de la BotFather
+    application = ApplicationBuilder().token("7849522428:AAFKfnqj3We0frTBpVZudMr6kS0rYU0fCso").build()
+
     # Adaugă handler-ul pentru comanda /start
     application.add_handler(CommandHandler("start", start))
-    
-    # Adaugă handler-ul pentru mesaje
-    application.add_handler(MessageHandler(Filters.all, handle_message))  # Răspunde la orice mesaj
 
-    # Începe botul
+    # Adaugă handler-ul pentru orice mesaj primit
+    application.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), greet_user))
+
+    # Pornește serverul Flask
+    keep_alive()
+
+    # Rulează botul
     application.run_polling()
-
-# Lansează botul și Flask
-if __name__ == "__main__":
-    keep_alive()  # Lansează serverul Flask
-    main()  # Lansează botul Telegram
