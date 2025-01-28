@@ -11,9 +11,8 @@ async def start(update: Update, context: CallbackContext) -> None:
 
 # Funcția pentru mesajele primite
 async def handle_message(update: Update, context: CallbackContext) -> None:
-    # Verificăm dacă mesajul provine dintr-o conversație privată
-    if update.message.chat.type == "private":
-        await update.message.reply_text('Eu nu folosesc Telegramul, dar pot să-ți răspund!')
+    # Răspunde oricărei persoane care îți trimite un mesaj personal
+    await update.message.reply_text('Eu nu folosesc Telegramul, dar pot să-ți răspund!')
 
 # Rularea botului
 def main():
