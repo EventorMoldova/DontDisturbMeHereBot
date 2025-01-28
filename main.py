@@ -1,3 +1,4 @@
+sys.version
 from telegram import Update
 from telegram.ext import Updater, CommandHandler
 from keep_alive import keep_alive
